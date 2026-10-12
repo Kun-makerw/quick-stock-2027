@@ -1,0 +1,1 @@
+sed -i 's/onChange={(e) => setLocalValue(e.target.value)}/onChange={(e) => setLocalValue(e.target.value)}\n        onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleCustomBlur(); } }}/g' src/components/InventoryList.tsx

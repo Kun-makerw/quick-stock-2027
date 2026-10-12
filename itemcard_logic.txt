@@ -1,0 +1,101 @@
+757:  const renderItemCard = (item: SheetRow, idx: number) => {
+758-    const ItemIcon = getItemIcon(item.item || "", item.tag || "", item.type || "");
+759-    return (
+760-      <div
+761-        key={item.row}
+762-        className={cn(
+763-          "flex flex-col gap-3 py-4 px-2 sm:px-4 transition-colors rounded-xl",
+764-          item.status === "Checked"
+765-            ? "bg-blue-50/80 dark:bg-blue-900/10 hover:bg-blue-100/60 dark:hover:bg-blue-900/20"
+766-            : "hover:bg-slate-50 dark:hover:bg-slate-700/30",
+767-        )}
+768-      >
+769-        <div className="flex justify-between items-start">
+770-          <div className="flex flex-col flex-1 mr-4 space-y-1.5">
+771-            <div className="flex items-center gap-2">
+772-              {type === "class" && (
+773-                <button
+774-                  onClick={() => handleStatusToggle(item.row)}
+775-                  className={cn(
+776-                    "p-1.5 rounded-lg transition-colors shrink-0",
+777-                    item.status === "Checked"
+778-                      ? "bg-blue-500 text-white hover:bg-blue-600 shadow-sm"
+779-                      : "bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400",
+780-                  )}
+781-                  title="Mark as double checked"
+782-                >
+783-                  <CheckCircle2 className="w-4 h-4" />
+784-                </button>
+785-              )}
+786-              <div className="flex items-center justify-center p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-indigo-500 dark:text-indigo-400 shrink-0">
+787-                <ItemIcon className="w-4 h-4" />
+788-              </div>
+789-              <input
+790-                type="text"
+791-                value={item.item}
+792-                onChange={(e) => handleItemNameChange(item.row, e.target.value)}
+793-                className={cn(
+794-                  "text-sm font-semibold bg-transparent border-none outline-none focus:ring-1 focus:ring-indigo-300 dark:focus:ring-indigo-500 rounded px-1 -ml-1 w-full",
+795-                  item.status === "Checked"
+796-                    ? "text-blue-900 dark:text-blue-300"
+797-                    : "text-slate-900 dark:text-slate-100",
+798-                  modifiedRows.has(item.row) &&
+799-                    "text-indigo-900 dark:text-indigo-300",
+800-                )}
+801-              />
+802-            </div>
+803-            <TagInput
+804-              value={item.tag || ""}
+805-              onChange={(val) => handleTagChange(item.row, val)}
+806-              isActive={modifiedRows.has(item.row)}
+807-              existingTags={existingTags}
+808-              customTags={customDropdowns.tags}
+809-              onAddCustom={handleAddCustomTag}
+810-            />
+811-            <TypeInput
+812-              value={item.type || ""}
+813-              tagValue={(item.tag || "Other").trim()}
+814-              onChange={(val) => handleTypeChange(item.row, val)}
+815-              isActive={modifiedRows.has(item.row)}
+816-              existingTypes={existingTypesByTag[(item.tag || "Other").trim()] || []}
+817-              customTypes={customDropdowns.typesByTag[(item.tag || "Other").trim()] || []}
+818-              onAddCustom={handleAddCustomType}
+819-            />
+820-            {item.tag === "Computer" && (
+821-              <div className="flex flex-col gap-2 w-full max-w-[200px]">
+822-                <input
+823-                  type="text"
+824-                  placeholder="Hostname"
+825-                  value={item.hostname || ""}
+826-                  onChange={(e) =>
+827-                    handleHostnameChange(item.row, e.target.value)
+828-                  }
+829-                  className={cn(
+830-                    "w-full text-xs px-2.5 py-1.5 rounded-lg outline-none transition-all border placeholder:text-slate-400 dark:placeholder:text-slate-500",
+831-                    modifiedRows.has(item.row)
+832-                      ? "border-indigo-300 bg-indigo-50/50 text-indigo-900 dark:bg-indigo-500/20 dark:border-indigo-500/30 dark:text-indigo-300"
+833-                      : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:border-indigo-400 dark:focus:border-indigo-500",
+834-                  )}
+835-                />
+836-                <div className="relative w-full flex items-center">
+837-                  <input
+838-                    type="text"
+839-                    placeholder="SNID (Scan)"
+840-                    value={item.snid || ""}
+841-                    onChange={(e) => handleSnidChange(item.row, e.target.value)}
+842-                    className={cn(
+843-                      "w-full text-xs pl-8 pr-2.5 py-1.5 rounded-lg outline-none transition-all border placeholder:text-slate-400 dark:placeholder:text-slate-500",
+844-                      modifiedRows.has(item.row)
+845-                        ? "border-indigo-300 bg-indigo-50/50 text-indigo-900 dark:bg-indigo-500/20 dark:border-indigo-500/30 dark:text-indigo-300"
+846-                        : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:border-indigo-400 dark:focus:border-indigo-500",
+847-                    )}
+848-                  />
+849-                  <button
+850-                    type="button"
+851-                    onClick={() => setScannerOpenIdx(item.row)}
+852-                    className="absolute left-1.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-md transition-colors"
+853-                    title="Scan Barcode"
+854-                  >
+855-                    <ScanLine className="w-3.5 h-3.5" />
+856-                  </button>
+857-                </div>

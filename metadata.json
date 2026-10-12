@@ -1,0 +1,8 @@
+{
+  "name": "Quick Stock",
+  "description": "A clean, mobile-friendly web app to streamline IT support tasks by managing inventory and counts directly in Google Sheets.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
